@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  deadline: MyString
+  type: 
+  status: MyString
+  project: one
+  reported_by: one
+  assigned_to: one
+
+two:
+  title: MyString
+  description: MyText
+  deadline: MyString
+  type: 
+  status: MyString
+  project: two
+  reported_by: two
+  assigned_to: two

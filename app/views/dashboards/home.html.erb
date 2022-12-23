@@ -1,0 +1,16 @@
+<% if current_user && current_user.usertype == 'Developer' %>
+<%= render 'dashboards/developer' , projects: @projects %>
+
+<% elsif current_user && current_user.usertype == 'Manager'%>
+<%= render 'dashboards/manager' , projects: @projects %>
+
+<% elsif current_user && current_user.usertype == 'QA' %>
+<%= render 'dashboards/qa' , projects: @projects%>
+
+<% else %>
+
+<%= link_to 'Sign Up', new_user_registration_path %>
+<%= link_to 'Sign in', new_user_session_path %>
+<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+
+<% end %>

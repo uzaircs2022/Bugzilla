@@ -1,0 +1,6 @@
+production:
+  cloud_name: "dlw0ekbng"
+  api_key: "565968329321616"
+  api_secret: "iLNoHosVJ3go3cCz71nN_P9AVfM"
+  secure: true
+  cdn_subdomain: true

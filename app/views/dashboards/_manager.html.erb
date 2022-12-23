@@ -1,0 +1,7 @@
+<h1>Managers Window  </h1>
+<a class = "btn btn-secondary" href="<%= projects_path %>">All Projects</a>
+<br/>
+<br/>
+<% if policy(Project).new? %>
+    <a class = "btn btn-secondary" href="<%= new_project_path %>">create new Project</a>
+<% end %>

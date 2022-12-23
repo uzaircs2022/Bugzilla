@@ -1,0 +1,68 @@
+<div class = "container ">
+<h1> Project: <%= @project.title %> </h1>
+
+<% @bugs.each do |bug| %>
+  <div class="card border-secondary">
+    <div class="card-header">
+      <%= link_to bug.title, project_bug_path(@project, bug) %>
+
+      <% if policy(bug).delete? %>
+          <button >
+          <%= link_to [@project, bug], method: :delete, data: {confirm: "Are you sure you want to delete this Bug?"} do %>
+            Delete
+          <% end %>
+          </button>
+      <% end %>
+
+      <% if policy(bug).edit? %>
+          <button >
+          <%= link_to edit_project_bug_path(@project, bug) do %>
+            Edit
+          <% end %>
+          </button>
+      <% end %>
+
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"> <p class="card-text"><%= bug.description %></p></li>
+      <li class="list-group-item">
+        <b>Started : </b>
+        <%= bug.created_at.to_formatted_s(:long) %>
+      </li>
+      <li class="list-group-item">
+        <% if bug.assigned_to_id? %>
+          <i> Assgined</i>
+        <% else %>
+          <i> Not Assgined</i>
+        <% end %>
+      </li>
+      <li class="list-group-item">
+        <i> <%= bug.status %> </i>
+      </li>
+      <li class="list-group-item">deadline: <%= bug.deadline%></li>
+    </ul>
+  </div>
+  <br/>
+<% end %>
+
+<h3> Summary </h3>
+
+<ul >
+  <li class="list-group-item"> Bugs:
+    <%= @project.bugs.count %>
+  </li>
+
+  <li class="list-group-item"> Developers:
+    <%= @project.assigned_user.count %>
+  </i>
+    <ol>
+      <% @project.assigned_user.each do |user| %>
+        <li><%= user.name %></li>
+      <% end %>
+    </ol>
+</ul>
+
+<button>
+<%= link_to 'Back', projects_path %>
+</button>
+</div>

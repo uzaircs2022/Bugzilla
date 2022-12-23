@@ -1,0 +1,15 @@
+<% if notice %>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><p class="notice"><%= notice %></p></li>
+  </ol>
+</nav>
+<% end %>
+
+<% if alert%>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page"><p class="notice"><p class="alert"><%= alert %></p></li>
+  </ol>
+</nav>
+<% end %>
