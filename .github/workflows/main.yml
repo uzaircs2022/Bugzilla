@@ -24,13 +24,12 @@ jobs:
           channel-id: C09CPH5KJ3T
           payload: |
             {
-              "text": "🤖 A PR was reviewed!",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* ${{ env.PR_TITLE }}\n<${{ env.PR_URL }}|View PR>"
+                    "text": "*Title:* Update README.md\n<https://github.com/uzaircs2022/Bugzilla/pull/12|View PR>"
                   }
                 },
                 {
@@ -38,18 +37,19 @@ jobs:
                   "elements": [
                     {
                       "type": "button",
+                      "action_id": "merge_pr",
                       "text": {
                         "type": "plain_text",
                         "text": "Merge PR",
                         "emoji": true
                       },
                       "style": "primary",
-                      "action_id": "merge_pr",
-                      "value": "{\"pull_number\":${{ env.PR_NUMBER }},\"repo\":\"${{ env.REPO_NAME }}\",\"owner\":\"${{ env.OWNER }}\"}"
+                      "value": "{\"pull_number\":12,\"repo\":\"Bugzilla\",\"owner\":\"uzaircs2022\"}"
                     }
                   ]
                 }
               ]
             }
+
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
