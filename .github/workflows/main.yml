@@ -20,14 +20,25 @@ jobs:
           channel-id: C09CPH5KJ3T
           payload: |
             {
-              "text": "🤖 A PR was reviewed!",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* ${{ github.event.issue.title }}\n*Labels:* ${{ env.labels }}\n<${{ github.event.issue.html_url }}|View PR>"
+                    "text": "*Title:* ${{ github.event.issue.title }}\n<${{ github.event.issue.html_url }}|View PR>"
                   }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {"type": "plain_text","text": "Merge PR"},
+                      "style": "primary",
+                      "action_id": "merge_pr",
+                      "value": "{\"pull_number\":${{ github.event.issue.number }},\"repo\":\"${{ github.repository }}\",\"owner\":\"your_github_username_or_org\"}"
+                    }
+                  ]
                 }
               ]
             }
