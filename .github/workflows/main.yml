@@ -17,10 +17,10 @@ jobs:
       - name: Send Slack Message
         uses: slackapi/slack-github-action@v1.24.0
         with:
+          channel-id: C09CPH5KJ3T
           payload: |
             {
-              "channel": "C09CPH5KJ3T",
-              "text": "🤖 A PR was reviewed by Qodo!",
+              "text": "🤖 A PR was reviewed!",
               "blocks": [
                 {
                   "type": "section",
