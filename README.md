@@ -25,3 +25,6 @@ Things you may want to cover:
 
 * HactoberFest Github Seminar
 
+
+
+* Testing it Testing it
