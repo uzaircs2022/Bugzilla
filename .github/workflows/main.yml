@@ -12,6 +12,7 @@ jobs:
       - name: Extract PR info
         id: pr_info
         run: |
+          echo "labels=$(echo '${{ toJson(github.event.pull_request.labels) }}' | jq -r '.[].name' | paste -sd "," -)" >> $GITHUB_ENV
           if [ "${{ github.event.issue.pull_request }}" != "" ]; then
             echo "PR_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
             echo "PR_TITLE=$(gh pr view ${{ github.event.issue.number }} --json title -q .title)" >> $GITHUB_ENV
@@ -36,7 +37,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* ${{ env.PR_TITLE }}\n*Labels:* ${{ env.PR_LABELS }}\n<${{ env.PR_URL }}|View PR>"
+                    "text": "*Title:* ${{ github.event.pull_request.title }}\n*State:* ${{ github.event.review.state }}\n*Labels:* ${{ env.labels }}\n<${{ github.event.pull_request.html_url }}|View PR>"
                   }
                 },
                 {
