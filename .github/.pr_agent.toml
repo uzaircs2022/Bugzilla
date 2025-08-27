@@ -1,7 +1,8 @@
 [config]
-disable_auto_feedback = true
+disable_auto_feedback = false   # allow auto-run, but control tools
 
 [github_app]
-pr_commands = [
-  "/review"
-]
+# Run ONLY review automatically
+auto_review = ["/review"]
+auto_describe = []      # disable
+auto_improve = []
