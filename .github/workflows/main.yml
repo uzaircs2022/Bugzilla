@@ -9,20 +9,13 @@ jobs:
     if: github.event.issue.pull_request != null
     runs-on: ubuntu-latest
     steps:
-      - name: Extract PR info
-        id: pr_info
+      - name: Extract Labels
+        id: labels
         run: |
-          if [ "${{ github.event.issue.pull_request }}" != "" ]; then
-            echo "PR_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
-            echo "PR_TITLE=$(gh pr view ${{ github.event.issue.number }} --json title -q .title)" >> $GITHUB_ENV
-            echo "PR_URL=$(gh pr view ${{ github.event.issue.number }} --json url -q .url)" >> $GITHUB_ENV
-            echo "PR_LABELS=$(gh pr view ${{ github.event.issue.number }} --json labels -q '.labels[].name' | paste -sd "," -)" >> $GITHUB_ENV
-            echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
-            echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
-          else
-            echo "This comment is not on a pull request."
-            exit 1
-          fi
+          echo "labels=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '.[].name' | paste -sd "," -)" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+          echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
 
       - name: Send Slack Message
         uses: slackapi/slack-github-action@v1.24.0
@@ -35,7 +28,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Title: ${{ env.PR_TITLE }}\n*Labels:* ${{ env.PR_LABELS }}\n<${{ env.PR_URL }}|View PR>"
+                    "text": "*Title:* ${{ github.event.issue.title }}\n*Labels:* ${{ env.labels }}\n<${{ github.event.issue.html_url }}|View PR>"
                   }
                 },
                 {
