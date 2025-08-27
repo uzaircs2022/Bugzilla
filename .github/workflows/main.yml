@@ -12,11 +12,16 @@ jobs:
       - name: Extract PR info
         id: pr_info
         run: |
-          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
-          echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-          echo "PR_URL=${{ github.event.pull_request.html_url }}" >> $GITHUB_ENV
-          echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
-          echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
+          if [ "${{ github.event.issue.pull_request }}" != "" ]; then
+            echo "PR_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+            echo "PR_TITLE=$(gh pr view ${{ github.event.issue.number }} --json title -q .title)" >> $GITHUB_ENV
+            echo "PR_URL=$(gh pr view ${{ github.event.issue.number }} --json url -q .url)" >> $GITHUB_ENV
+            echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+            echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
+          else
+            echo "This comment is not on a pull request."
+            exit 1
+          fi
 
       - name: Send Slack Message
         uses: slackapi/slack-github-action@v1.24.0
