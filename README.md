@@ -22,15 +22,3 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-
-* Testing it Testing it* Testing it Testing it* Testing it Testing it* Testing it Testing it
-* Testing it Testing it
-
-
-
-
-* HactoberFest Github Seminar
-
-
-* Testing it Testing it* Testing it Testing it* Testing it Testing it* Testing it Testing it
-* Testing it Testing it
