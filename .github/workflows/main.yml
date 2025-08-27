@@ -9,10 +9,14 @@ jobs:
     if: github.event.issue.pull_request != null
     runs-on: ubuntu-latest
     steps:
-      - name: Extract Labels
-        id: labels
+      - name: Extract PR info
+        id: pr_info
         run: |
-          echo "labels=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '.[].name' | paste -sd "," -)" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+          echo "PR_URL=${{ github.event.pull_request.html_url }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+          echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
 
       - name: Send Slack Message
         uses: slackapi/slack-github-action@v1.24.0
@@ -20,12 +24,13 @@ jobs:
           channel-id: C09CPH5KJ3T
           payload: |
             {
+              "text": "🤖 A PR was reviewed!",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* ${{ github.event.issue.title }}\n<${{ github.event.issue.html_url }}|View PR>"
+                    "text": "*Title:* ${{ env.PR_TITLE }}\n<${{ env.PR_URL }}|View PR>"
                   }
                 },
                 {
@@ -33,10 +38,14 @@ jobs:
                   "elements": [
                     {
                       "type": "button",
-                      "text": {"type": "plain_text","text": "Merge PR"},
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Merge PR",
+                        "emoji": true
+                      },
                       "style": "primary",
                       "action_id": "merge_pr",
-                      "value": "{\"pull_number\":${{ github.event.issue.number }},\"repo\":\"${{ github.repository }}\",\"owner\":\"your_github_username_or_org\"}"
+                      "value": "{\"pull_number\":${{ env.PR_NUMBER }},\"repo\":\"${{ env.REPO_NAME }}\",\"owner\":\"${{ env.OWNER }}\"}"
                     }
                   ]
                 }
