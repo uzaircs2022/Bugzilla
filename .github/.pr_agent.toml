@@ -1,0 +1,7 @@
+[config]
+disable_auto_feedback = true
+
+[github_app]
+pr_commands = [
+  "/review"
+]
