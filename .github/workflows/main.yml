@@ -29,7 +29,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* Update README.md\n<https://github.com/uzaircs2022/Bugzilla/pull/12|View PR>"
+                    "text": "*Title:* ${{ env.PR_TITLE }}\n<${{ env.PR_URL }}|View PR>"
                   }
                 },
                 {
@@ -44,12 +44,11 @@ jobs:
                         "emoji": true
                       },
                       "style": "primary",
-                      "value": "{\"pull_number\":12,\"repo\":\"Bugzilla\",\"owner\":\"uzaircs2022\"}"
+                      "value": "{\"pull_number\":${{ env.PR_NUMBER}},\"repo\":\"${{ env.REPO_NAME }}\",\"owner\":\"${{ env.OWNER }}\"}"
                     }
                   ]
                 }
               ]
             }
-
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
