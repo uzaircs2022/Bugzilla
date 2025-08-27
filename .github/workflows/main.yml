@@ -12,13 +12,11 @@ jobs:
       - name: Extract PR info
         id: pr_info
         run: |
-          echo "labels=$(echo '${{ toJson(github.event.pull_request.labels) }}' | jq -r '.[].name' | paste -sd "," -)" >> $GITHUB_ENV
           if [ "${{ github.event.issue.pull_request }}" != "" ]; then
             echo "PR_NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
             echo "PR_TITLE=$(gh pr view ${{ github.event.issue.number }} --json title -q .title)" >> $GITHUB_ENV
             echo "PR_URL=$(gh pr view ${{ github.event.issue.number }} --json url -q .url)" >> $GITHUB_ENV
-            # Get labels as a comma-separated string
-            echo "PR_LABELS=$(echo '${{ toJson(github.event.pull_request.labels) }}' | jq -r '.[].name' | paste -sd "," -)" >> $GITHUB_ENV
+            echo "PR_LABELS=$(gh pr view ${{ github.event.issue.number }} --json labels -q '.labels[].name' | paste -sd "," -)" >> $GITHUB_ENV
             echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
             echo "OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
           else
@@ -37,7 +35,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Title:* ${{ github.event.pull_request.title }}\n*State:* ${{ github.event.review.state }}\n*Labels:* ${{ env.labels }}\n<${{ github.event.pull_request.html_url }}|View PR>"
+                    "text": "Title: ${{ env.PR_TITLE }}\n*Labels:* ${{ env.PR_LABELS }}\n<${{ env.PR_URL }}|View PR>"
                   }
                 },
                 {
@@ -60,4 +58,3 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
