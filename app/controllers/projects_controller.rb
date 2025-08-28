@@ -41,15 +41,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.find(params[:id])
-    if params[:project][:object_id].any?
-      params[:project][:object_id].reject!(&:empty?)
-      @project.assigned_user = User.find( params[:project][:object_id])
-    end
-    authorize @project
-    if @project.update(project_params)
-      redirect_to @project, notice: 'Project is successfully Updated.'
-    else
       render :edit
     end
   end
