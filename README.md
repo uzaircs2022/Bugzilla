@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * Services (job queues, cache servers, search engines, etc.)
+
+* Services (job queues, cache servers, search engines, etc.)
